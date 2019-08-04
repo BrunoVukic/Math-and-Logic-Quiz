@@ -41,7 +41,7 @@
             android:label=""
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".razina1"
+            android:name=".Zadatak"
             android:label=""
             android:noHistory="false"
             android:parentActivityName=".Leveli"
