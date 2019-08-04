@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#368DA5</color>
+    <color name="colorSecondary">#3E7180</color>
+    <color name="colorPrimaryDark">#8B8B8F</color>
+    <color name="zadatak">#888</color>
+    <color name="zadatak2">#889290</color>
+    <color name="background">#666669</color>
+    <color name="colorAccent">#F7F7F7</color>
+    <color name="toolbarText">#D6D5D5</color>
+    <color name="colorButtonBorder">#8D8D8D</color>
+    <color name="colorPredeni">#83F785</color>
+    <color name="colorMorasTaj">#CF3939</color>
+</resources>

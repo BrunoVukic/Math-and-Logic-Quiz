@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/colorAccent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent">
+
+        <Button
+            android:id="@+id/watch_add_hint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/round_button_enter"
+            android:drawableStart="@drawable/video_outline"
+            android:drawablePadding="15dp"
+            android:paddingStart="15dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="15dp"
+            android:text="Watch ad \nfor hint"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/watch_add_solution"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Button
+            android:id="@+id/watch_add_solution"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/round_button_enter"
+            android:drawableStart="@drawable/video_outline"
+            android:drawablePadding="10dp"
+            android:paddingStart="15dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="15dp"
+            android:text="Watch ad \nfor solution"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/watch_add_hint" />
+
+
+        <ImageButton
+            android:id="@+id/hintClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/closebtn_theme"
+            android:src="@drawable/closebtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9"/>
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>
