@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Animation mShakeAnimation = AnimationUtils.loadAnimation(context, R.anim.floating);
-        mainTitle.startAnimation(mShakeAnimation);
+        /*Animation mShakeAnimation = AnimationUtils.loadAnimation(context, R.anim.floating);
+        mainTitle.startAnimation(mShakeAnimation);*/
     }
 
     @Override
