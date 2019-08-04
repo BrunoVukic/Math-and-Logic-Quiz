@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openPlay() {
-        Intent intent = new Intent(this, razina1.class);
+        Intent intent = new Intent(this, Zadatak.class);
         SharedPreferences.Editor editor = getSharedPreferences("Level", MODE_PRIVATE).edit();
         editor.putBoolean("keyMain", true);
         editor.apply();

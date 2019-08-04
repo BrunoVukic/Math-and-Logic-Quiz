@@ -1,6 +1,5 @@
 package com.example.MathAndLogicQuiz;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,7 +32,7 @@ import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 
-public class razina1 extends AppCompatActivity implements RewardedVideoAdListener {
+public class Zadatak extends AppCompatActivity implements RewardedVideoAdListener {
     int ocitajRazinu;
     int provjeraRazineIzLevel;
     int iducaRazina;
@@ -61,7 +60,7 @@ public class razina1 extends AppCompatActivity implements RewardedVideoAdListene
                 setTheme(R.style.AppTheme2);
             }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.razina1);
+        setContentView(R.layout.activity_zadatak);
         TextView zad=findViewById(R.id.zadatak_text);
         Toolbar toolbar = findViewById(R.id.toolbarRazine);
         TextView text = findViewById(R.id.toolbar_title);
@@ -143,79 +142,66 @@ public class razina1 extends AppCompatActivity implements RewardedVideoAdListene
             case 3:
                 zadatak.setText(R.string.lvl_3);
                 tocnoRjesenje = 42;
-
                 hint = "Number multiplied by 7";
                 break;
             case 4:
                 zadatak.setText(R.string.lvl_4);
                 tocnoRjesenje = 8;
-
                 hint = "Multiply with 8";
                 break;
             case 5:
                 zadatak.setText(R.string.lvl_5);
                 tocnoRjesenje = 17;
-
                 hint = "Adding with a number between 10 and 15";
                 break;
             case 6:
                 zadatak.setText(R.string.lvl_6);
                 tocnoRjesenje = 20;
-
                 hint = "Adding with a number between 10 and 15";
                 break;
             case 7:
                 zadatak.setText(R.string.lvl_7);
                 tocnoRjesenje = 24;
-
                 hint = "Multiply then add one more";
                 break;
             case 8:
                 zadatak.setText(R.string.lvl_8);
                 tocnoRjesenje = 20;
-
                 hint = "Add a multiplication of 2 ";
                 break;
             case 9:
                 zadatak.setText(R.string.lvl_9);
                 tocnoRjesenje = 13;
-
                 hint = "Add a number, subtract it, add again";
                 break;
             case 10:
                 zadatak.setText(R.string.lvl_10);
                 tocnoRjesenje = 4;
-
                 hint = "Multiply!";
                 break;
             case 11:
                 zadatak.setText(R.string.lvl_11);
                 tocnoRjesenje = 10;
-
                 hint = "Multiply first, add second";
                 break;
             case 12:
                 zadatak.setText(R.string.lvl_12);
                 tocnoRjesenje = 49;
-
                 hint = "Multiply first, add and subtract second";
                 break;
             case 13:
                 zadatak.setText(R.string.lvl_13);
                 tocnoRjesenje = 29;
-
                 hint = "1.Brackets, 2.Multiplications, 3.Adding and subtracting";
                 break;
             case 14:
                 zadatak.setText(R.string.lvl_14);
                 tocnoRjesenje = 2;
-
                 hint = "Multiply first, add and subtract second";
                 break;
             case 15:
                 zadatak.setText(R.string.lvl_15);
                 tocnoRjesenje = 10;
-
                 hint = "Multiply digit with a digit";
                 break;
             case 16:
@@ -531,6 +517,18 @@ public class razina1 extends AppCompatActivity implements RewardedVideoAdListene
                 tocnoRjesenje = 44;
                 hint = "Increment circle segment to get the neighbouring circle segment";
                 break;
+            case 71:
+                zadatak.setText(R.string.lvl_71);
+                tocnoRjesenje = 27;
+                hint = "Cubed number";
+                break;
+            case 72:
+                zadatak.setVisibility(zadatak.GONE);
+                zadatakSlika.setVisibility(zadatakSlika.VISIBLE);
+                zadatakSlika.setImageResource(R.drawable.lvl72);
+                tocnoRjesenje = 9;
+                hint = "Do something with the top numbers to get the bottom ones";
+                break;
             default:
                 zadatak.setText(R.string.lvl_1);
                 tocnoRjesenje = 7;
@@ -617,7 +615,7 @@ public class razina1 extends AppCompatActivity implements RewardedVideoAdListene
                 editor.apply();
             }
             PlaySound(1);
-            View dialoglayout = LayoutInflater.from(razina1.this).inflate(R.layout.popup, null);
+            View dialoglayout = LayoutInflater.from(Zadatak.this).inflate(R.layout.popup, null);
             AlertDialog alertDialog = new AlertDialog.Builder(context).create();
             alertDialog.setView(dialoglayout);
             alertDialog.show();
@@ -625,7 +623,7 @@ public class razina1 extends AppCompatActivity implements RewardedVideoAdListene
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(razina1.this, razina1.class);
+                    Intent intent = new Intent(Zadatak.this, Zadatak.class);
                     startActivity(intent); // start same activity
                     finish(); // destroy older activity
                 }
@@ -667,7 +665,7 @@ public class razina1 extends AppCompatActivity implements RewardedVideoAdListene
         final Button solutionBtn;
         hint_b.clearAnimation();
         hint_b.setBackground(getResources().getDrawable(R.drawable.hint_button));
-        final View dialoglayout = LayoutInflater.from(razina1.this).inflate(R.layout.hint, null);
+        final View dialoglayout = LayoutInflater.from(Zadatak.this).inflate(R.layout.hint, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setView(dialoglayout);
         hintBtn = dialoglayout.findViewById(R.id.watch_add_hint);
@@ -897,7 +895,7 @@ public class razina1 extends AppCompatActivity implements RewardedVideoAdListene
 
     @Override
     public void onRewarded(RewardItem rewardItem) {
-        final View dialoglayout = LayoutInflater.from(razina1.this).inflate(R.layout.after_ad, null);
+        final View dialoglayout = LayoutInflater.from(Zadatak.this).inflate(R.layout.after_ad, null);
         if (adAmount == 1) {
             afterAd=dialoglayout.findViewById(R.id.hint_solution);
             afterAd.setText(hint);

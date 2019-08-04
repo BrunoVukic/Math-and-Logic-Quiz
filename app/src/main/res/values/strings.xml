@@ -55,4 +55,5 @@
     <string name="lvl_65">173 = 73\n242 = 92\n293 = \u0020?\n314 = 64"</string>
     <string name="lvl_67">3,6,5,?,8,11,19</string>
     <string name="lvl_69">(17+3)/5= ?\u0020\n\n12x3/18= ?\n\n3x8-6x4= ?</string>
+    <string name="lvl_71">1,8,?,64,125</string>
 </resources>

@@ -78,7 +78,7 @@ public class Leveli extends AppCompatActivity {
             }
         });
 
-        for (int i = 0; i < 18; i++) {
+       for (int i = 0; i < 18; i++) {
             for (int j = 0; j < 4; j++) {
                 String buttonID = "razina" + brojRazina;
                 int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
@@ -151,7 +151,7 @@ public class Leveli extends AppCompatActivity {
             SharedPreferences.Editor editor = getSharedPreferences("Level", MODE_PRIVATE).edit();
             editor.putBoolean("keyMain", false);
             editor.apply();
-            Intent intent = new Intent(this, razina1.class);
+            Intent intent = new Intent(this, Zadatak.class);
             intent.putExtra("extra", pritisnutiLevel);
             startActivity(intent);
         } else {

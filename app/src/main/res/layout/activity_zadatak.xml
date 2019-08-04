@@ -40,7 +40,6 @@
         android:layout_marginBottom="8dp"
         android:background="@color/zadatak"
         android:fontFamily="@font/lekton"
-        android:text="13-\u00204 = 17\n23+16 = \u00207\n\u00207/\u00208 = \u0020?\n24x\u00203 = \u00208"
         android:elevation="6dp"
         android:gravity="center"
         android:textColor="@color/colorAccent"
