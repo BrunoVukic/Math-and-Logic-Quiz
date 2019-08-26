@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -17,8 +18,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="0dp"
+            android:fontFamily="@font/comfortaa"
             android:textAllCaps="false"
-            android:textSize="30sp" />
+            app:autoSizeMaxTextSize="50sp"
+            app:autoSizeMinTextSize="30sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            />
     </LinearLayout>
 </android.support.v7.widget.Toolbar>

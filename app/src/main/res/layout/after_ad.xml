@@ -16,6 +16,7 @@
         android:gravity="center"
         android:textColor="@color/colorSecondary"
         android:textSize="30sp"
+        android:fontFamily="@font/comfortaa"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

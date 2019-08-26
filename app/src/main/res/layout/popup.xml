@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center_horizontal"
@@ -11,10 +11,12 @@
 
     <TextView
         android:id="@+id/poruka_naslov"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/comfortaa"
         android:padding="30dp"
         android:text="Correct!"
+        android:gravity="center"
         android:textAllCaps="false"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"

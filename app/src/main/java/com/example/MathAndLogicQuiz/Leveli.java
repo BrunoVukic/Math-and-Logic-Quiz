@@ -4,7 +4,8 @@ package com.example.MathAndLogicQuiz;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -28,8 +29,8 @@ public class Leveli extends AppCompatActivity {
     Button razina;
     String nas;
     TextView naslov;
-    int brojRazina = 1;
-    MediaPlayer btnPress;
+    SoundPool soundPool;
+    int[] sound;
     final Context context = this;
 
     @Override
@@ -77,19 +78,29 @@ public class Leveli extends AppCompatActivity {
                 handleOnBackPress();
             }
         });
-
-       for (int i = 0; i < 18; i++) {
-            for (int j = 0; j < 4; j++) {
-                String buttonID = "razina" + brojRazina;
-                int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
-                razina = findViewById(resID);
-                razina.setText(String.valueOf(brojRazina));
-                brojRazina++;
-            }
+        FillLevels();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool.Builder()
+                    .setMaxStreams(1)
+                    .build();
+        } else {
+            soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         }
-
+        sound=new int[2];
+        sound[0]=soundPool.load(context,R.raw.thump,1);
+        sound[1]=soundPool.load(context,R.raw.wrong,1);
     }
-
+    public void FillLevels()
+    {
+        int brojRazina=1;
+        do {
+            String buttonID = "razina" + brojRazina;
+            int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
+           razina = findViewById(resID);
+            razina.setText(String.valueOf(brojRazina));
+            brojRazina++;
+        }while (brojRazina<=76);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -101,7 +112,7 @@ public class Leveli extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_setting:
-                PlaySound(1);
+                PlaySound(0);
                 OptionsShow();
                 return true;
             default:
@@ -113,6 +124,12 @@ public class Leveli extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         obojiPredeno();
+    }
+
+    @Override
+    public void onBackPressed() {
+        PlaySound(0);
+        super.onBackPressed();
     }
 
     public void obojiPredeno() {
@@ -134,7 +151,7 @@ public class Leveli extends AppCompatActivity {
     }
 
     public boolean handleOnBackPress() {
-        PlaySound(1);
+        PlaySound(0);
         onBackPressed();
         return true;
     }
@@ -145,9 +162,9 @@ public class Leveli extends AppCompatActivity {
         int iducaRazina = prefs.getInt("keyName", 1);
         String BtnText = b.getText().toString();
         int pritisnutiLevel = Integer.parseInt(BtnText);
-       // if (pritisnutiLevel <= iducaRazina || pritisnutiLevel == 1)
-        if(iducaRazina>0){
-            PlaySound(1);
+        if (pritisnutiLevel <= iducaRazina || pritisnutiLevel == 1)
+        /*if(iducaRazina>0)*/{
+            PlaySound(0);
             SharedPreferences.Editor editor = getSharedPreferences("Level", MODE_PRIVATE).edit();
             editor.putBoolean("keyMain", false);
             editor.apply();
@@ -166,12 +183,12 @@ public class Leveli extends AppCompatActivity {
                 morasUc.setBackground(this.getResources().getDrawable(R.drawable.round_button_moras_taj2));
                 Animation mShakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
                 morasUc.startAnimation(mShakeAnimation);
-                PlaySound(2);
+                PlaySound(1);
             } else {
                 morasUc.setBackground(this.getResources().getDrawable(R.drawable.round_button_moras_taj));
                 Animation mShakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
                 morasUc.startAnimation(mShakeAnimation);
-                PlaySound(2);
+                PlaySound(1);
             }
         }
 
@@ -206,7 +223,7 @@ public class Leveli extends AppCompatActivity {
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PlaySound(2);
+                    PlaySound(0);
                     alertDialog.cancel();
                 }
             });
@@ -230,7 +247,7 @@ public class Leveli extends AppCompatActivity {
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PlaySound(2);
+                    PlaySound(0);
                     alertDialog.cancel();
                 }
             });
@@ -239,7 +256,7 @@ public class Leveli extends AppCompatActivity {
 
     public void Options(View v) {
         ImageButton vibrate = (ImageButton) v;
-        PlaySound(1);
+        PlaySound(0);
         SharedPreferences prefs2 = getSharedPreferences("Options", MODE_PRIVATE);
         int vibrateValue = prefs2.getInt("keyVibrate", 1);
         if (vibrateValue == 1) {
@@ -282,23 +299,15 @@ public class Leveli extends AppCompatActivity {
             editor.apply();
             vibrate.setImageResource(R.drawable.volume_high);
 
-            PlaySound(1);
+            PlaySound(0);
         }
     }
     public void PlaySound(int a) {
         SharedPreferences prefs2 = getSharedPreferences("Options", MODE_PRIVATE);
         int soundValue = prefs2.getInt("keySound", 1);
         if (soundValue == 1) {
-            if (a == 2) {
-                btnPress = MediaPlayer.create(context, R.raw.wrong);
-                btnPress.start();
-            } else {
-                btnPress = MediaPlayer.create(context, R.raw.thump);
-                btnPress.start();
-            }
-
+            soundPool.play(sound[a],1,1,1,0,1f);
         }
-
     }
 }
 
