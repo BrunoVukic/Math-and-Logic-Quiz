@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:background="@color/colorPrimaryDark"
     android:padding="10dip">
 
 
@@ -15,9 +15,10 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/comfortaa"
         android:padding="30dp"
-        android:text="Correct!"
+        android:text="@string/string13"
         android:gravity="center"
         android:textAllCaps="false"
+        android:background="@color/colorPrimaryDark"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

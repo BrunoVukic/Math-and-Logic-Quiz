@@ -6,8 +6,8 @@
     android:layout_height="wrap_content">
 
     <include
-        android:id="@+id/toolbarRazine"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar"
+        android:id="@+id/toolbarRazine"/>
 
     <ScrollView
         android:id="@+id/scrollview"

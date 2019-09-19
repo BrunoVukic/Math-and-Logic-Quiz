@@ -17,7 +17,6 @@ import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +29,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide
+        .load.resource.drawable.DrawableTransitionOptions;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
@@ -38,18 +40,17 @@ import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 
 public class Zadatak extends AppCompatActivity implements RewardedVideoAdListener {
-    int ocitajRazinu;
-    int provjeraRazineIzLevel;
-    int iducaRazina;
-    int tocnoRjesenje;
+    int readLevel;
+    int nextLevel;
+    int correctAnswer;
     int adAmount = 0;
-    int brojPokusaja = 0;
-    int jeliPogledanHint = 0;
-    int broj = 0;
-    TextView ispis;
+    int noOfTries = 0;
+    int watchedHint = 0;
+    int number = 0;
+    ImageView question;
+    TextView inputField;
     Button button;
     String hint = null;
-    String imeRazine;
     SoundPool soundPool;
     int[] sound;
     RewardedVideoAd mAd;
@@ -69,23 +70,12 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zadatak);
-        ImageView zad = findViewById(R.id.zadatak_slika);
+        question = findViewById(R.id.zadatak_slika);
         Toolbar toolbar = findViewById(R.id.toolbarRazine);
-        TextView text = findViewById(R.id.toolbar_title);
-        View view = findViewById(R.id.toolbar_linear);
-        if (themeValue == 1) {
+        TextView title = findViewById(R.id.toolbar_title);
 
-            zad.setBackgroundResource(R.color.zadatak);
-            toolbar.getContext().setTheme(R.style.Toolbar);
-            text.setBackgroundResource(R.color.colorPrimaryDark);
-            view.setBackgroundResource(R.color.colorPrimaryDark);
-        } else {
+        theme(themeValue, toolbar, title, question);
 
-            zad.setBackgroundResource(R.color.zadatak2);
-            toolbar.getContext().setTheme(R.style.Toolbar2);
-            text.setBackgroundResource(R.color.colorSecondary);
-            view.setBackgroundResource(R.color.colorSecondary);
-        }
         lightBulb = findViewById(R.id.hint);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.arrow_left);
@@ -97,24 +87,24 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
         });
         SharedPreferences prefs2 = getSharedPreferences("Level", MODE_PRIVATE);
         boolean main = prefs2.getBoolean("keyMain", false);
+        int checkLevel;
         if (main) {
             SharedPreferences prefs = getSharedPreferences("Level", MODE_PRIVATE);
-            ocitajRazinu = prefs.getInt("keyName", 1);
+            readLevel = prefs.getInt("keyName", 1);
         } else {
             Bundle b = getIntent().getExtras();
             try {
-                provjeraRazineIzLevel = b.getInt("extra");
+                checkLevel = b.getInt("extra");
 
             } catch (Exception e) {
                 SharedPreferences prefs = getSharedPreferences("Level", MODE_PRIVATE);
-                provjeraRazineIzLevel = prefs.getInt("keyName2", 1);
+                checkLevel = prefs.getInt("keyName2", 1);
             }
-            ocitajRazinu = provjeraRazineIzLevel;
+            readLevel = checkLevel;
         }
-        imeRazine = "Level " + ocitajRazinu;
-        text.setText(imeRazine);
+        title();
         button = findViewById(R.id.button10);
-        ispis=findViewById(R.id.upis);
+        inputField = findViewById(R.id.upis);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             soundPool = new SoundPool.Builder()
                     .setMaxStreams(4)
@@ -123,24 +113,28 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
             soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         }
         sound = new int[4];
-        sound[0] = soundPool.load(context, R.raw.correct, 1);
-        sound[1] = soundPool.load(context, R.raw.input, 1);
-        sound[2] = soundPool.load(context, R.raw.thump, 1);
-        sound[3] = soundPool.load(context, R.raw.wrong, 1);
-        OdaberiLevel();
+        sound[0] = soundPool
+                .load(context, R.raw.correct, 1);
+        sound[1] = soundPool
+                .load(context, R.raw.input, 1);
+        sound[2] = soundPool
+                .load(context, R.raw.thump, 1);
+        sound[3] = soundPool
+                .load(context, R.raw.wrong, 1);
+        chooseLevel();
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                LoadAds();
+                loadAds();
             }
         }, 100);
-        ispis.setOnTouchListener(new View.OnTouchListener() {
+        inputField.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= ispis.getRight() - ispis.getTotalPaddingRight()) {
-                        Clear();
+                    if (event.getRawX() >= inputField.getRight() - inputField.getTotalPaddingRight()) {
+                        clear(true);
                         return true;
                     }
                 }
@@ -149,407 +143,677 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
         });
     }
 
-    public void LoadAds() {
+    public void theme(int a, Toolbar toolbar, TextView textView, ImageView imageview) {
+        if (a == 1) {
+            super.setTheme(R.style.AppTheme);
+            toolbar.getContext().setTheme(R.style.Toolbar);
+            toolbar.setBackgroundResource(R.color.colorPrimaryDark);
+            textView.setBackgroundResource(R.color.colorPrimaryDark);
+            imageview.setBackgroundResource(R.color.zadatak);
+
+        } else {
+            super.setTheme(R.style.AppTheme2);
+            toolbar.getContext().setTheme(R.style.Toolbar2);
+            toolbar.setBackgroundResource(R.color.colorSecondary);
+            textView.setBackgroundResource(R.color.colorSecondary);
+            imageview.setBackgroundResource(R.color.zadatak2);
+        }
+    }
+
+    public void title() {
+        TextView text = findViewById(R.id.toolbar_title);
+        /*String imeRazine = "Level " + readLevel;*/
+        text.setText("Level " + readLevel);
+    }
+
+    public void reset(boolean a) {
+        title();
+        clear(a);
+        lightBulb.setImageResource(R.drawable.lightbulb_outline);
+        adAmount=0;
+        chooseLevel();
+    }
+
+    public void loadAds() {
         MobileAds.initialize(this, "ca-app-pub-3940256099942544/5224354917");
         mAd = MobileAds.getRewardedVideoAdInstance(this);
         mAd.setRewardedVideoAdListener(this);
-        mAd.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
+        mAd
+                .loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
     }
 
-    public void OdaberiLevel() {
-        ImageView zadatakSlika = findViewById(R.id.zadatak_slika);
-        switch (ocitajRazinu) {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Runtime.getRuntime().gc();
+    }
+
+    public void chooseLevel() {
+
+        switch (readLevel) {
             case 1:
-                zadatakSlika.setImageResource(R.drawable.lvl1);
-                tocnoRjesenje = 7;
+                Glide.with(context)
+                        .load(R.drawable.lvl1)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 7;
                 hint = "Number after 6";
                 break;
             case 2:
-                zadatakSlika.setImageResource(R.drawable.lvl2);
-                tocnoRjesenje = 15;
+                Glide.with(context)
+                        .load(R.drawable.lvl2)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 15;
                 hint = "Number before 16";
                 break;
             case 3:
-                zadatakSlika.setImageResource(R.drawable.lvl3);
-                tocnoRjesenje = 42;
+                Glide.with(context)
+                        .load(R.drawable.lvl3)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 42;
                 hint = "Number multiplied by 7";
                 break;
             case 4:
-                zadatakSlika.setImageResource(R.drawable.lvl4);
-                tocnoRjesenje = 8;
+                Glide.with(context)
+                        .load(R.drawable.lvl4)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 8;
                 hint = "Multiply with 8";
                 break;
             case 5:
-                zadatakSlika.setImageResource(R.drawable.lvl5);
-                tocnoRjesenje = 17;
+                Glide.with(context)
+                        .load(R.drawable.lvl5)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 17;
                 hint = "Adding with a number between 10 and 15";
                 break;
             case 6:
-                zadatakSlika.setImageResource(R.drawable.lvl6);
-                tocnoRjesenje = 20;
+                Glide.with(context)
+                        .load(R.drawable.lvl6)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 20;
                 hint = "Adding with a number between 10 and 15";
                 break;
             case 7:
-                zadatakSlika.setImageResource(R.drawable.lvl7);
-                tocnoRjesenje = 24;
+                Glide.with(context)
+                        .load(R.drawable.lvl7)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 24;
                 hint = "Multiply then add one more";
                 break;
             case 8:
-                zadatakSlika.setImageResource(R.drawable.lvl8);
-                tocnoRjesenje = 20;
+                Glide.with(context)
+                        .load(R.drawable.lvl8)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 20;
                 hint = "Add a multiplication of 2 ";
                 break;
             case 9:
-                zadatakSlika.setImageResource(R.drawable.lvl9);
-                tocnoRjesenje = 13;
+                Glide.with(context)
+                        .load(R.drawable.lvl9)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 13;
                 hint = "Add a number, subtract it, add again";
                 break;
             case 10:
-                zadatakSlika.setImageResource(R.drawable.lvl10);
-                tocnoRjesenje = 4;
+                Glide.with(context)
+                        .load(R.drawable.lvl10)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 4;
                 hint = "Multiply!";
                 break;
             case 11:
-                zadatakSlika.setImageResource(R.drawable.lvl11);
-                tocnoRjesenje = 10;
+                Glide.with(context)
+                        .load(R.drawable.lvl11)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 10;
                 hint = "Multiply first, add second";
                 break;
             case 12:
-                zadatakSlika.setImageResource(R.drawable.lvl12);
-                tocnoRjesenje = 49;
+                Glide.with(context)
+                        .load(R.drawable.lvl12)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 49;
                 hint = "Multiply first, add and subtract second";
                 break;
             case 13:
-                zadatakSlika.setImageResource(R.drawable.lvl13);
-                tocnoRjesenje = 29;
+                Glide.with(context)
+                        .load(R.drawable.lvl13)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 29;
                 hint = "1.Brackets, 2.Multiplications, 3.Adding and subtracting";
                 break;
             case 14:
-                zadatakSlika.setImageResource(R.drawable.lvl14);
-                tocnoRjesenje = 2;
+                Glide.with(context)
+                        .load(R.drawable.lvl14)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 2;
                 hint = "Multiply first, add and subtract second";
                 break;
             case 15:
-                zadatakSlika.setImageResource(R.drawable.lvl15);
-                tocnoRjesenje = 10;
+                Glide.with(context)
+                        .load(R.drawable.lvl15)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 10;
                 hint = "Multiply digit with a digit";
                 break;
             case 16:
-                zadatakSlika.setImageResource(R.drawable.lvl16);
-                tocnoRjesenje = 14;
+                Glide.with(context)
+                        .load(R.drawable.lvl16)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 14;
                 hint = "Count the big ones";
                 break;
             case 17:
-                zadatakSlika.setImageResource(R.drawable.lvl17);
-                tocnoRjesenje = 87;
+                Glide.with(context)
+                        .load(R.drawable.lvl17)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 87;
                 hint = "Flip the phone upside down";
                 break;
             case 18:
-                zadatakSlika.setImageResource(R.drawable.lvl18);
-                tocnoRjesenje = 4;
+                Glide.with(context)
+                        .load(R.drawable.lvl18)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 4;
                 hint = "x-y=60\n+x+y=100";
                 break;
             case 19:
-                zadatakSlika.setImageResource(R.drawable.lvl19);
-                tocnoRjesenje = 15;
+                Glide.with(context)
+                        .load(R.drawable.lvl19)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 15;
                 hint = "Divide and multiply, then add";
                 break;
             case 20:
-                zadatakSlika.setImageResource(R.drawable.lvl20);
-                tocnoRjesenje = 12;
+                Glide.with(context)
+                        .load(R.drawable.lvl20)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 12;
                 hint = "From left to right";
                 break;
             case 21:
-                zadatakSlika.setImageResource(R.drawable.lvl21);
-                tocnoRjesenje = 30;
+                Glide.with(context)
+                        .load(R.drawable.lvl21)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 30;
                 hint = "Number below is the multiplier";
                 break;
             case 22:
-                zadatakSlika.setImageResource(R.drawable.lvl22);
-                tocnoRjesenje = 7;
+                Glide.with(context)
+                        .load(R.drawable.lvl22)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 7;
                 hint = "Add the top to middle to get bottom";
                 break;
             case 23:
-                zadatakSlika.setImageResource(R.drawable.lvl23);
-                tocnoRjesenje = 3;
+                Glide.with(context)
+                        .load(R.drawable.lvl23)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 3;
                 hint = "Add the columns";
                 break;
             case 24:
-                zadatakSlika.setImageResource(R.drawable.lvl24);
-                tocnoRjesenje = 22;
+                Glide.with(context)
+                        .load(R.drawable.lvl24)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 22;
                 hint = "( x ) - ( - )";
                 break;
             case 25:
-                zadatakSlika.setImageResource(R.drawable.lvl25);
-                tocnoRjesenje = 18;
+                Glide.with(context)
+                        .load(R.drawable.lvl25)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 18;
                 hint = "Add digits, then numbers ";
                 break;
             case 26:
-                zadatakSlika.setImageResource(R.drawable.lvl26);
-                tocnoRjesenje = 5;
+                Glide.with(context)
+                        .load(R.drawable.lvl26)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 5;
                 hint = "Multiply with 3 then subtract";
                 break;
             case 27:
-                zadatakSlika.setImageResource(R.drawable.lvl27);
-                tocnoRjesenje = 54;
+                Glide.with(context)
+                        .load(R.drawable.lvl27)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 54;
                 hint = "Multiply with 2 then subtract";
                 break;
             case 28:
-                zadatakSlika.setImageResource(R.drawable.lvl28);
-                tocnoRjesenje = 51;
+                Glide.with(context)
+                        .load(R.drawable.lvl28)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 51;
                 hint = "Multiply with 2 then subtract";
                 break;
             case 29:
-                zadatakSlika.setImageResource(R.drawable.lvl29);
-                tocnoRjesenje = 2;
+                Glide.with(context)
+                        .load(R.drawable.lvl29)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 2;
                 hint = "Zig-zag pattern";
                 break;
             case 30:
-                zadatakSlika.setImageResource(R.drawable.lvl30);
-                tocnoRjesenje = 3;
+                Glide.with(context)
+                        .load(R.drawable.lvl30)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 3;
                 hint = "Add left and right, divide with a number to get the middle";
                 break;
             case 31:
-                zadatakSlika.setImageResource(R.drawable.lvl31);
-                tocnoRjesenje = 2;
+                Glide.with(context)
+                        .load(R.drawable.lvl31)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 2;
                 hint = "Even numbers";
                 break;
             case 32:
-                zadatakSlika.setImageResource(R.drawable.lvl32);
-                tocnoRjesenje = 8;
+                Glide.with(context)
+                        .load(R.drawable.lvl32)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 8;
                 hint = "Incrementing the number you add by 1";
                 break;
             case 33:
-                zadatakSlika.setImageResource(R.drawable.lvl33);
-                tocnoRjesenje = 16;
+                Glide.with(context)
+                        .load(R.drawable.lvl33)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 16;
                 hint = "Pattern of added numbers";
                 break;
             case 34:
-                zadatakSlika.setImageResource(R.drawable.lvl34);
-                tocnoRjesenje = 21;
+                Glide.with(context)
+                        .load(R.drawable.lvl34)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 21;
                 hint = "Add power of 2 (2^n)";
                 break;
             case 35:
-                zadatakSlika.setImageResource(R.drawable.lvl35);
-                tocnoRjesenje = 29;
+                Glide.with(context)
+                        .load(R.drawable.lvl35)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 29;
                 hint = "Adding number to the right side to get the opposite side number";
                 break;
             case 36:
-                zadatakSlika.setImageResource(R.drawable.lvl36);
-                tocnoRjesenje = 1;
+                Glide.with(context)
+                        .load(R.drawable.lvl36)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 1;
                 hint = "Add numbers on the same side of the triangle";
                 break;
             case 37:
-                zadatakSlika.setImageResource(R.drawable.lvl37);
-                tocnoRjesenje = 46;
+                Glide.with(context)
+                        .load(R.drawable.lvl37)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 46;
                 hint = "Add odd numbers";
                 break;
             case 38:
-                zadatakSlika.setImageResource(R.drawable.lvl38);
-                tocnoRjesenje = 10;
+                Glide.with(context)
+                        .load(R.drawable.lvl38)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 10;
                 hint = "Multipy bas numbers, add to top";
                 break;
             case 39:
-                zadatakSlika.setImageResource(R.drawable.lvl39);
-                tocnoRjesenje = 0;
+                Glide.with(context)
+                        .load(R.drawable.lvl39)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 0;
                 hint = "Count the circles in numbers";
                 break;
             case 40:
-                zadatakSlika.setImageResource(R.drawable.lvl40);
-                tocnoRjesenje = 7;
+                Glide.with(context)
+                        .load(R.drawable.lvl40)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 7;
                 hint = "Top and bottom half are equal";
                 break;
             case 41:
-                zadatakSlika.setImageResource(R.drawable.lvl41);
-                tocnoRjesenje = 8;
+                Glide.with(context)
+                        .load(R.drawable.lvl41)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 8;
                 hint = "Fibonacci";
                 break;
             case 42:
-                zadatakSlika.setImageResource(R.drawable.lvl42);
-                tocnoRjesenje = 8;
+                Glide.with(context)
+                        .load(R.drawable.lvl42)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 8;
                 hint = "+x -> (x-1) -> +x";
                 break;
             case 43:
-                zadatakSlika.setImageResource(R.drawable.lvl43);
-                tocnoRjesenje = 56;
+                Glide.with(context)
+                        .load(R.drawable.lvl43)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 56;
                 hint = "Do the opposite";
                 break;
             case 44:
-                zadatakSlika.setImageResource(R.drawable.lvl44);
-                tocnoRjesenje = 49;
+                Glide.with(context)
+                        .load(R.drawable.lvl44)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 49;
                 hint = "Number multiplied by itself";
                 break;
             case 45:
-                zadatakSlika.setImageResource(R.drawable.lvl45);
-                tocnoRjesenje = 42;
+                Glide.with(context)
+                        .load(R.drawable.lvl45)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 42;
                 hint = "Multiply left with left + 1";
                 break;
             case 46:
-                zadatakSlika.setImageResource(R.drawable.lvl46);
-                tocnoRjesenje = 4370;
+                Glide.with(context)
+                        .load(R.drawable.lvl46)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 4370;
                 hint = "Patterns";
                 break;
             case 47:
-                zadatakSlika.setImageResource(R.drawable.lvl47);
-                tocnoRjesenje = 14;
+                Glide.with(context)
+                        .load(R.drawable.lvl47)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 14;
                 hint = "| = 10 , V = 5 , X = 10";
                 break;
             case 48:
-                zadatakSlika.setImageResource(R.drawable.lvl48);
-                tocnoRjesenje = 23;
+                Glide.with(context)
+                        .load(R.drawable.lvl48)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 23;
                 hint = "Prime numbers";
                 break;
             case 49:
-                zadatakSlika.setImageResource(R.drawable.lvl49);
-                tocnoRjesenje = 15;
+                Glide.with(context)
+                        .load(R.drawable.lvl49)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 15;
                 hint = "Add opposite numbers to get the middle";
                 break;
             case 50:
-                zadatakSlika.setImageResource(R.drawable.lvl50);
-                tocnoRjesenje = 16;
+                Glide.with(context)
+                        .load(R.drawable.lvl50)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 16;
                 hint = "Add a number to left triangle numbers";
                 break;
             case 51:
-                zadatakSlika.setImageResource(R.drawable.lvl51);
-                tocnoRjesenje = 1;
+                Glide.with(context)
+                        .load(R.drawable.lvl51)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 1;
                 hint = "13";
                 break;
             case 52:
-                zadatakSlika.setImageResource(R.drawable.lvl52);
-                tocnoRjesenje = 55;
+                Glide.with(context)
+                        .load(R.drawable.lvl52)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 55;
                 hint = "A^2 + B";
                 break;
             case 53:
-                zadatakSlika.setImageResource(R.drawable.lvl53);
-                tocnoRjesenje = 18;
+                Glide.with(context)
+                        .load(R.drawable.lvl53)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 18;
                 hint = "Add a number, but in a zig-zag pattern";
                 break;
             case 54:
-                zadatakSlika.setImageResource(R.drawable.lvl54);
-                tocnoRjesenje = 3;
+                Glide.with(context)
+                        .load(R.drawable.lvl54)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 3;
                 hint = "Multiply with middle to get the opposite";
                 break;
             case 55:
-                zadatakSlika.setImageResource(R.drawable.lvl55);
-                tocnoRjesenje = 48;
+                Glide.with(context)
+                        .load(R.drawable.lvl55)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 48;
                 hint = "Multiples of 6";
                 break;
             case 56:
-                zadatakSlika.setImageResource(R.drawable.lvl56);
-                tocnoRjesenje = 29;
+                Glide.with(context)
+                        .load(R.drawable.lvl56)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 29;
                 hint = "AB=B(A+B)";
                 break;
             case 57:
-                zadatakSlika.setImageResource(R.drawable.lvl57);
-                tocnoRjesenje = 13;
+                Glide.with(context)
+                        .load(R.drawable.lvl57)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 13;
                 hint = "\u221AA + \u221AB";
                 break;
             case 58:
-                zadatakSlika.setImageResource(R.drawable.lvl58);
-                tocnoRjesenje = 48;
+                Glide.with(context)
+                        .load(R.drawable.lvl58)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 48;
                 hint = "Add and subtract opposite numbers to get inner ones";
                 break;
             case 59:
-                zadatakSlika.setImageResource(R.drawable.lvl59);
-                tocnoRjesenje = 3;
+                Glide.with(context)
+                        .load(R.drawable.lvl59)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 3;
                 hint = "Add 2 diagonal numbers";
                 break;
             case 60:
-                zadatakSlika.setImageResource(R.drawable.lvl60);
-                tocnoRjesenje = 12;
+                Glide.with(context)
+                        .load(R.drawable.lvl60)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 12;
                 hint = "Add outer numbers, add 2, get middle";
                 break;
             case 61:
-                zadatakSlika.setImageResource(R.drawable.lvl61);
-                tocnoRjesenje = 3;
+                Glide.with(context)
+                        .load(R.drawable.lvl61)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 3;
                 hint = "(A + B)/(A - B)";
                 break;
             case 62:
-                zadatakSlika.setImageResource(R.drawable.lvl62);
-                tocnoRjesenje = 81;
+                Glide.with(context)
+                        .load(R.drawable.lvl62)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 81;
                 hint = "3^2 , (3+3)^2 ,...";
                 break;
             case 63:
-                zadatakSlika.setImageResource(R.drawable.lvl63);
-                tocnoRjesenje = 10;
+                Glide.with(context)
+                        .load(R.drawable.lvl63)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 10;
                 hint = "Middle of the two numbers below";
                 break;
             case 64:
-                zadatakSlika.setImageResource(R.drawable.lvl64);
-                tocnoRjesenje = 13;
+                Glide.with(context)
+                        .load(R.drawable.lvl64)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 13;
                 hint = "Add the digits";
                 break;
             case 65:
-                zadatakSlika.setImageResource(R.drawable.lvl65);
-                tocnoRjesenje = 93;
+                Glide.with(context)
+                        .load(R.drawable.lvl65)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 93;
                 hint = "100, 150 , 200 , 250 ";
                 break;
             case 66:
-                zadatakSlika.setImageResource(R.drawable.lvl66);
-                tocnoRjesenje = 17;
+                Glide.with(context)
+                        .load(R.drawable.lvl66)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 17;
                 hint = "Add all the numbers in a row";
                 break;
             case 67:
-                zadatakSlika.setImageResource(R.drawable.lvl67);
-                tocnoRjesenje = 7;
+                Glide.with(context)
+                        .load(R.drawable.lvl67)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 7;
                 hint = "Add neighbouring numbers and subtract with a number";
                 break;
             case 68:
-                zadatakSlika.setImageResource(R.drawable.lvl68);
-                tocnoRjesenje = 6;
+                Glide.with(context)
+                        .load(R.drawable.lvl68)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 6;
                 hint = "Add 2 lower numbers to get the third";
                 break;
             case 69:
-                zadatakSlika.setImageResource(R.drawable.lvl69);
-                tocnoRjesenje = 420;
+                Glide.with(context)
+                        .load(R.drawable.lvl69)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 420;
                 hint = "Marijuana number";
                 break;
             case 70:
-                zadatakSlika.setImageResource(R.drawable.lvl70);
-                tocnoRjesenje = 44;
+                Glide.with(context)
+                        .load(R.drawable.lvl70)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 44;
                 hint = "Increment circle segment to get the neighbouring circle segment";
                 break;
             case 71:
-                zadatakSlika.setImageResource(R.drawable.lvl71);
-                tocnoRjesenje = 27;
+                Glide.with(context)
+                        .load(R.drawable.lvl71)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 27;
                 hint = "Cubed number";
                 break;
             case 72:
-                zadatakSlika.setImageResource(R.drawable.lvl72);
-                tocnoRjesenje = 9;
+                Glide.with(context)
+                        .load(R.drawable.lvl72)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 9;
                 hint = "Do something with the top numbers to get the bottom ones";
                 break;
             case 73:
-                zadatakSlika.setImageResource(R.drawable.lvl73);
-                tocnoRjesenje = 7;
+                Glide.with(context)
+                        .load(R.drawable.lvl73)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 7;
                 hint = "Add the numbers in the little triangles";
                 break;
             case 74:
-                zadatakSlika.setImageResource(R.drawable.lvl74);
-                tocnoRjesenje = 8;
+                Glide.with(context)
+                        .load(R.drawable.lvl74)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 8;
                 hint = "2x2=4\n√4=2";
                 break;
             case 75:
-                zadatakSlika.setImageResource(R.drawable.lvl75);
-                tocnoRjesenje = 30;
+                Glide.with(context)
+                        .load(R.drawable.lvl75)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 30;
                 hint = "Add a number to the numbers in the left diamond to get the numbers on the right";
                 break;
             case 76:
-                zadatakSlika.setImageResource(R.drawable.lvl76);
-                tocnoRjesenje = 6;
+                Glide.with(context)
+                        .load(R.drawable.lvl76)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 6;
                 hint = "Add numbers on the same side";
                 break;
             default:
-                zadatakSlika.setImageResource(R.drawable.lvl1);
-                tocnoRjesenje = 7;
-                hint = "Number after 6";
+                Glide.with(context)
+                        .asGif()
+                        .load(R.drawable.splash)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 7;
+                hint = "Something went wrong";
                 break;
         }
     }
 
     @Override
     public void onBackPressed() {
-        PlaySound(2);
+        playSound(2);
         super.onBackPressed();
     }
 
@@ -562,56 +826,57 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_setting) {
-            PlaySound(2);
-            OptionsShow();
+            playSound(2);
+            optionsShow();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
     }
 
-    public void upis(View v) {
+    public void numberInput(View v) {
         Button botun = (Button) v;
-        PlaySound(1);
-        if (ispis.getText().equals(getResources().getText(R.string.string8)) || ispis.getText() == null) {
-            ispis.setText(null);
-            ispis.setTextColor(getResources().getColor(R.color.colorAccent));
-            ispis.setText(botun.getText());
+        playSound(1);
+        if (inputField.getText().equals(getResources().getText(R.string.string8)) || inputField.getText() == null) {
+            inputField.setText(null);
+            inputField.setTextColor(getResources().getColor(R.color.colorAccent));
+            inputField.setText(botun.getText());
         } else {
-            ispis.setTextColor(getResources().getColor(R.color.colorAccent));
-            ispis.append(botun.getText());
+            inputField.setTextColor(getResources().getColor(R.color.colorAccent));
+            inputField.append(botun.getText());
         }
     }
 
-    public void Clear() {
-        PlaySound(2);
-        ispis.setText(null);
-        ispis.setHint(getResources().getText(R.string.string8));
+    public void clear(boolean a) {
+        if(a)
+        {
+            playSound(2);
+        }
+        inputField.setText(null);
+        inputField.setHint(getResources().getText(R.string.string8));
     }
 
 
-    public void Check(View v) {
+    public void check(View v) {
 
-        int upisanoRj;
-
-        if(ispis.getText().equals("Answer"))
-        {
-            ispis.setText(null);
+        int input;
+        if (inputField.getText().equals("Answer")) {
+            inputField.setText(null);
         }
         try {
-            upisanoRj = Integer.parseInt(ispis.getText().toString());
+            input = Integer.parseInt(inputField.getText().toString());
         } catch (Exception e) {
-            upisanoRj = 0;
+            input = 0;
         }
-        if (upisanoRj == 310796) {
-            Options3();
+        if (input == 310796) {
+            options3();
         } else {
-            if (tocnoRjesenje == upisanoRj) {
+            if (correctAnswer == input) {
                 SharedPreferences prefs = getSharedPreferences("Level", MODE_PRIVATE);
-                iducaRazina = prefs.getInt("keyName", 1);
+                nextLevel = prefs.getInt("keyName", 1);
 
-                if (ocitajRazinu == iducaRazina) {
-                    SharedPreferences.Editor editor = getSharedPreferences("Level", MODE_PRIVATE).edit();
+                if (readLevel == nextLevel) {
+                    SharedPreferences.Editor editor = prefs.edit();
                     editor.putBoolean("keyMain", true);
                     editor.apply();
 
@@ -619,64 +884,65 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
                 SharedPreferences prefs2 = getSharedPreferences("Level", MODE_PRIVATE);
                 boolean main = prefs2.getBoolean("keyMain", true);
 
-                if (ocitajRazinu < iducaRazina + 1 && main) {
-                    iducaRazina++;
-                    SharedPreferences.Editor editor = getSharedPreferences("Level", MODE_PRIVATE).edit();
-                    editor.putInt("keyName", iducaRazina);
+                if (readLevel < nextLevel + 1 && main) {
+                    nextLevel++;
+                    SharedPreferences.Editor editor = prefs2.edit();
+                    editor.putInt("keyName", nextLevel);
                     editor.apply();
                 } else {
-                    ocitajRazinu++;
-                    SharedPreferences.Editor editor = getSharedPreferences("Level", MODE_PRIVATE).edit();
-                    editor.putInt("keyName2", ocitajRazinu);
+                    /*readLevel++;*/
+                    SharedPreferences.Editor editor = prefs2.edit();
+                    editor.putInt("keyName2", readLevel);
                     editor.apply();
                 }
-                PlaySound(0);
+                playSound(0);
                 View dialoglayout = LayoutInflater.from(Zadatak.this).inflate(R.layout.popup, null);
-                AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                 alertDialog.setView(dialoglayout);
                 alertDialog.show();
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(Zadatak.this, Zadatak.class);
-                        startActivity(intent); // start same activity
-                        finish(); // destroy older activity
+                        alertDialog.cancel();
+                        readLevel++;
+                        boolean is_reset=false;
+                        reset(is_reset);
+
                     }
-                }, 500);
+                }, 1000);
             } else {
-                PlaySound(3);
+                playSound(3);
                 SharedPreferences prefs = getSharedPreferences("Options", MODE_PRIVATE);
                 int retoredBoolean = prefs.getInt("keyVibrate", 1);
                 if (retoredBoolean == 1) {
 
                     Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    // Vibrate for 500 milliseconds
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         vib.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
                     } else {
-                        //deprecated in API 26
                         vib.vibrate(100);
                     }
                 }
-                Animation mShakeAnimation = AnimationUtils.loadAnimation(context, R.anim.shake);
-                ispis.startAnimation(mShakeAnimation);
-                ispis.setText(null);
-                ispis.setHint(getResources().getString(R.string.string8));
-                brojPokusaja++;
-                if (brojPokusaja >= 3) {
+                Animation mShakeAnimation = AnimationUtils
+                        .loadAnimation(context, R.anim.shake);
+                inputField.startAnimation(mShakeAnimation);
+                inputField.setText(null);
+                inputField.setHint(getResources().getString(R.string.string8));
+                noOfTries++;
+                if (noOfTries >= 3) {
                     if (adAmount < 3) {
-                        PritisniMe();
+                        pressMe();
                     }
-                    brojPokusaja = 0;
+                    noOfTries = 0;
                 }
             }
         }
     }
 
-    public void Hint(View v) {
+    public void hint(View v) {
         final ImageButton hint_b = (ImageButton) v;
-        PlaySound(2);
+        playSound(2);
         final Button hintBtn;
         final Button solutionBtn;
         hint_b.clearAnimation();
@@ -689,11 +955,12 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
         hintBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlaySound(2);
+                playSound(2);
                 if (!(mAd.isLoaded())) {
                     if (haveNetworkConnection()) {
                         hintBtn.setText(getResources().getText(R.string.string4));
-                        mAd.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
+                        mAd
+                                .loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
                     } else {
                         String poruka = "Check your internet connection!";
                         Toast toast = Toast.makeText(getApplicationContext(), poruka, Toast.LENGTH_SHORT);
@@ -714,15 +981,17 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
                 if (adAmount < 2) {
                     String a = "Look at hint first";
                     solutionBtn.setText(a);
-                    Animation mShakeAnimation = AnimationUtils.loadAnimation(context, R.anim.shake);
+                    Animation mShakeAnimation = AnimationUtils
+                            .loadAnimation(context, R.anim.shake);
                     solutionBtn.startAnimation(mShakeAnimation);
-                    PlaySound(3);
+                    playSound(3);
                 } else {
-                    PlaySound(2);
+                    playSound(2);
                     if (!(mAd.isLoaded())) {
                         if (haveNetworkConnection()) {
                             solutionBtn.setText(getResources().getText(R.string.string4));
-                            mAd.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
+                            mAd
+                                    .loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
                         } else {
                             String poruka = "Check your internet connection!";
                             Toast toast = Toast.makeText(getApplicationContext(), poruka, Toast.LENGTH_SHORT);
@@ -732,7 +1001,7 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
                         adAmount = 2;
                         mAd.show();
                         alertDialog.cancel();
-                        jeliPogledanHint = 0;
+                        watchedHint = 0;
                     }
                 }
 
@@ -743,24 +1012,24 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlaySound(2);
+                playSound(2);
                 alertDialog.cancel();
             }
         });
     }
 
-    public void OptionsShow() {
+    public void optionsShow() {
         SharedPreferences prefs2 = getSharedPreferences("Options", MODE_PRIVATE);
         int vibrateValue = prefs2.getInt("keyVibrate", 1);
         int soundValue = prefs2.getInt("keySound", 1);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View promptView = layoutInflater.inflate(R.layout.options, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        ImageButton btn = promptView.findViewById(R.id.imageVibrate);
+        ImageButton btn2 = promptView.findViewById(R.id.imageSound);
+        ImageButton btnClose = promptView.findViewById(R.id.alertClose);
+
         if (vibrateValue == 1) {
-            LayoutInflater layoutInflater = LayoutInflater.from(this);
-            View promptView = layoutInflater.inflate(R.layout.options, null);
-            promptView.setBackground(getResources().getDrawable(R.drawable.alertbox));
-            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            ImageButton btn = promptView.findViewById(R.id.imageVibrate);
-            ImageButton btn2 = promptView.findViewById(R.id.imageSound);
-            ImageButton btnClose = promptView.findViewById(R.id.alertClose);
             btn.setImageResource(R.drawable.vibrate);
             if (soundValue == 1) {
                 btn2.setImageResource(R.drawable.volume_high);
@@ -773,18 +1042,12 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PlaySound(2);
+                    playSound(2);
                     alertDialog.cancel();
                 }
             });
 
         } else {
-            LayoutInflater layoutInflater = LayoutInflater.from(this);
-            View promptView = layoutInflater.inflate(R.layout.options, null);
-            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            ImageButton btn = promptView.findViewById(R.id.imageVibrate);
-            ImageButton btn2 = promptView.findViewById(R.id.imageSound);
-            ImageButton btnClose = promptView.findViewById(R.id.alertClose);
             btn.setImageResource(R.drawable.vibrate_off);
             if (soundValue == 1) {
                 btn2.setImageResource(R.drawable.volume_high);
@@ -797,82 +1060,73 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PlaySound(2);
+                    playSound(2);
                     alertDialog.cancel();
                 }
             });
         }
     }
 
-    public void Options(View v) {
+    public void optionsVibration(View v) {
         ImageButton vibrate = (ImageButton) v;
         SharedPreferences prefs2 = getSharedPreferences("Options", MODE_PRIVATE);
         int vibrateValue = prefs2.getInt("keyVibrate", 1);
         if (vibrateValue == 1) {
-            SharedPreferences.Editor editor = getSharedPreferences("Options", MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = prefs2.edit();
             editor.putInt("keyVibrate", 0);
             editor.apply();
             vibrate.setImageResource(R.drawable.vibrate_off);
         } else {
-            SharedPreferences.Editor editor = getSharedPreferences("Options", MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = prefs2.edit();
             editor.putInt("keyVibrate", 1);
             editor.apply();
             vibrate.setImageResource(R.drawable.vibrate);
             Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            // Vibrate for 500 milliseconds
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vib.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {
-                //deprecated in API 26
                 vib.vibrate(100);
             }
         }
     }
 
-    public void Options2(View v) {
-        ImageButton vibrate = (ImageButton) v;
+    public void optionsSound(View v) {
+        ImageButton sound = (ImageButton) v;
 
         SharedPreferences prefs2 = getSharedPreferences("Options", MODE_PRIVATE);
         int soundValue = prefs2.getInt("keySound", 1);
         if (soundValue == 1) {
-            SharedPreferences.Editor editor = getSharedPreferences("Options", MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = prefs2.edit();
             editor.putInt("keySound", 0);
             editor.apply();
-            vibrate.setImageResource(R.drawable.volume_off);
-
-
+            sound.setImageResource(R.drawable.volume_off);
         } else {
-            SharedPreferences.Editor editor = getSharedPreferences("Options", MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = prefs2.edit();
             editor.putInt("keySound", 1);
             editor.apply();
-            vibrate.setImageResource(R.drawable.volume_high);
-
-            PlaySound(2);
+            sound.setImageResource(R.drawable.volume_high);
+            playSound(2);
         }
     }
-    public void Options3()
-    {
-        broj=1;
-        new CountDownTimer(3000,1000)
-        {
+
+    public void options3() {
+        number = 1;
+        new CountDownTimer(3000, 1000) {
             @Override
-            public void onTick(long millisUntilFinished)
-            {
+            public void onTick(long millisUntilFinished) {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        broj=broj+1;
+                        number = number + 1;
                     }
                 });
-                Log.v("sadokasd"," "+broj);
-                if(broj>=3)
-                {
+                if (number >= 3) {
                     cancel();
                     SharedPreferences.Editor editor = getSharedPreferences("Level", MODE_PRIVATE).edit();
                     editor.putInt("keyName", 76);
                     editor.apply();
                     View dialoglayout = LayoutInflater.from(Zadatak.this).inflate(R.layout.popup, null);
-                    TextView textView=dialoglayout.findViewById(R.id.poruka_naslov);
+                    TextView textView = dialoglayout.findViewById(R.id.poruka_naslov);
                     textView.setText("Good job!");
                     AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                     alertDialog.setView(dialoglayout);
@@ -882,8 +1136,8 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
                         @Override
                         public void run() {
                             Intent intent = new Intent(Zadatak.this, Zadatak.class);
-                            startActivity(intent); // start same activity
-                            finish(); // destroy older activity
+                            startActivity(intent);
+                            finish();
                             Toast toast = Toast.makeText(getApplicationContext(), "All levels unlocked!", Toast.LENGTH_SHORT);
                             toast.show();
                         }
@@ -896,7 +1150,8 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
             }
         }.start();
     }
-    public void PlaySound(int a) {
+
+    public void playSound(int a) {
         SharedPreferences prefs2 = getSharedPreferences("Options", MODE_PRIVATE);
         int soundValue = prefs2.getInt("keySound", 1);
         if (soundValue == 1) {
@@ -904,10 +1159,11 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
         }
     }
 
-    public void PritisniMe() {
+    public void pressMe() {
         final ImageButton hintBtn = findViewById(R.id.hint);
         hintBtn.setBackground(getResources().getDrawable(R.drawable.hint_button_glow));
-        Animation enlargeAnimation = AnimationUtils.loadAnimation(context, R.anim.large);
+        Animation enlargeAnimation = AnimationUtils
+                .loadAnimation(context, R.anim.large);
         hintBtn.startAnimation(enlargeAnimation);
     }
 
@@ -918,7 +1174,7 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
 
     @Override
     public void onRewardedVideoAdOpened() {
-        jeliPogledanHint = 1;
+        watchedHint = 1;
     }
 
     @Override
@@ -934,40 +1190,27 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
     @Override
     public void onRewarded(RewardItem rewardItem) {
         final View dialoglayout = LayoutInflater.from(Zadatak.this).inflate(R.layout.after_ad, null);
+        afterAd = dialoglayout.findViewById(R.id.hint_solution);
+        final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        ImageButton closeBtn = dialoglayout.findViewById(R.id.hintClose);
         if (adAmount == 1) {
-            afterAd = dialoglayout.findViewById(R.id.hint_solution);
             afterAd.setText(hint);
-            final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-            alertDialog.setView(dialoglayout);
-            alertDialog.show();
-            ImageButton closeBtn = dialoglayout.findViewById(R.id.hintClose);
-            closeBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PlaySound(2);
-                    alertDialog.cancel();
-                }
-            });
             adAmount = 2;
             lightBulb.setImageResource(R.drawable.lightbulb);
         } else {
-            afterAd = dialoglayout.findViewById(R.id.hint_solution);
-            afterAd.setText("" + tocnoRjesenje);
-            final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-            alertDialog.setView(dialoglayout);
-            alertDialog.show();
-            ImageButton closeBtn = dialoglayout.findViewById(R.id.hintClose);
-            closeBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PlaySound(2);
-                    alertDialog.cancel();
-                }
-            });
+            afterAd.setText("" + correctAnswer);
             lightBulb.setImageResource(R.drawable.lightbulb_on);
             adAmount = 3;
         }
-
+        alertDialog.setView(dialoglayout);
+        alertDialog.show();
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playSound(2);
+                alertDialog.cancel();
+            }
+        });
     }
 
     @Override

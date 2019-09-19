@@ -26,50 +26,31 @@ import android.widget.Toast;
 
 
 public class Leveli extends AppCompatActivity {
-    Button razina;
-    String nas;
-    TextView naslov;
+    Button level;
     SoundPool soundPool;
     int[] sound;
     final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences prefs3 = getSharedPreferences("Options", MODE_PRIVATE);
-        int themeValue = prefs3.getInt("keyTheme", 1);
-        if (themeValue==1)
-        {
+        SharedPreferences prefs = getSharedPreferences("Options", MODE_PRIVATE);
+        int themeValue = prefs.getInt("keyTheme", 1);
+        if (themeValue == 1) {
             setTheme(R.style.AppTheme);
-        }else
-        {
+        } else {
             setTheme(R.style.AppTheme2);
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leveli);
         Toolbar toolbar = findViewById(R.id.toolbarRazine);
-        naslov = findViewById(R.id.toolbar_title);
-        View view=findViewById(R.id.toolbar_linear);
-        if(themeValue==1)
-        {
+        String string = getResources().getString(R.string.string2);
+        TextView title = findViewById(R.id.toolbar_title);
+        title.setText(string);
 
+        theme(themeValue, toolbar, title);
 
-            toolbar.getContext().setTheme(R.style.Toolbar);
-            naslov.setBackgroundResource(R.color.colorPrimaryDark);
-            view.setBackgroundResource(R.color.colorPrimaryDark);
-        }
-        else
-        {
-
-
-            toolbar.getContext().setTheme(R.style.Toolbar2);
-            naslov.setBackgroundResource(R.color.colorSecondary);
-            view.setBackgroundResource(R.color.colorSecondary);
-        }
         setSupportActionBar(toolbar);
         onResume();
-        nas = getResources().getString(R.string.string2);
-        naslov = findViewById(R.id.toolbar_title);
-        naslov.setText(nas);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrow_left);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -78,7 +59,7 @@ public class Leveli extends AppCompatActivity {
                 handleOnBackPress();
             }
         });
-        FillLevels();
+        fillLevels();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             soundPool = new SoundPool.Builder()
                     .setMaxStreams(1)
@@ -86,24 +67,24 @@ public class Leveli extends AppCompatActivity {
         } else {
             soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         }
-        sound=new int[2];
-        sound[0]=soundPool.load(context,R.raw.thump,1);
-        sound[1]=soundPool.load(context,R.raw.wrong,1);
+        sound = new int[2];
+        sound[0] = soundPool.load(context, R.raw.thump, 1);
+        sound[1] = soundPool.load(context, R.raw.wrong, 1);
     }
-    public void FillLevels()
-    {
-        int brojRazina=1;
+
+    public void fillLevels() {
+        int noLevels = 1;
         do {
-            String buttonID = "razina" + brojRazina;
+            String buttonID = "razina" + noLevels;
             int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
-           razina = findViewById(resID);
-            razina.setText(String.valueOf(brojRazina));
-            brojRazina++;
-        }while (brojRazina<=76);
+            level = findViewById(resID);
+            level.setText(String.valueOf(noLevels));
+            noLevels++;
+        } while (noLevels <= 76);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
@@ -112,31 +93,46 @@ public class Leveli extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_setting:
-                PlaySound(0);
-                OptionsShow();
+                playSound(0);
+                optionsShow();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    public void theme(int a, Toolbar toolbar, TextView textView) {
+        if (a == 1) {
+            super.setTheme(R.style.AppTheme);
+            toolbar.getContext().setTheme(R.style.Toolbar);
+            toolbar.setBackgroundResource(R.color.colorPrimaryDark);
+            textView.setBackgroundResource(R.color.colorPrimaryDark);
+
+        } else {
+            super.setTheme(R.style.AppTheme2);
+            toolbar.getContext().setTheme(R.style.Toolbar2);
+            toolbar.setBackgroundResource(R.color.colorSecondary);
+            textView.setBackgroundResource(R.color.colorSecondary);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        obojiPredeno();
+        completedLevels();
     }
 
     @Override
     public void onBackPressed() {
-        PlaySound(0);
+        playSound(0);
         super.onBackPressed();
     }
 
-    public void obojiPredeno() {
+    public void completedLevels() {
         SharedPreferences prefs = getSharedPreferences("Level", MODE_PRIVATE);
-        int predeniLeveli = prefs.getInt("keyName", 1);
+        int completed = prefs.getInt("keyName", 1);
         Button predeni;
-        for (int i = 1; i < predeniLeveli; i++) {
+        for (int i = 1; i < completed; i++) {
             String buttonID = "razina" + i;
             int btnID = getResources().getIdentifier(buttonID, "id", getPackageName());
             predeni = findViewById(btnID);
@@ -147,11 +143,10 @@ public class Leveli extends AppCompatActivity {
             }
 
         }
-
     }
 
     public boolean handleOnBackPress() {
-        PlaySound(0);
+        playSound(0);
         onBackPressed();
         return true;
     }
@@ -159,58 +154,52 @@ public class Leveli extends AppCompatActivity {
     public void levelInfo(View v) {
         Button b = (Button) v;
         SharedPreferences prefs = getSharedPreferences("Level", MODE_PRIVATE);
-        int iducaRazina = prefs.getInt("keyName", 1);
+        int nextLevel = prefs.getInt("keyName", 1);
         String BtnText = b.getText().toString();
-        int pritisnutiLevel = Integer.parseInt(BtnText);
-        if (pritisnutiLevel <= iducaRazina || pritisnutiLevel == 1)
-        /*if(iducaRazina>0)*/{
-            PlaySound(0);
-            SharedPreferences.Editor editor = getSharedPreferences("Level", MODE_PRIVATE).edit();
+        int pressedLevel = Integer.parseInt(BtnText);
+        if (pressedLevel <= nextLevel || pressedLevel == 1)
+            /*if(nextLevel>0)*/ {
+            playSound(0);
+            SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("keyMain", false);
             editor.apply();
             Intent intent = new Intent(this, Zadatak.class);
-            intent.putExtra("extra", pritisnutiLevel);
+            intent.putExtra("extra", pressedLevel);
             startActivity(intent);
         } else {
-            Button morasUc;
-            String poruka = "No skipping levels!";
-            Toast toast = Toast.makeText(getApplicationContext(), poruka, Toast.LENGTH_SHORT);
+            Button mustPress;
+            String message = "No skipping levels!";
+            Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
             toast.show();
-            String buttonID = "razina" + iducaRazina;
+            String buttonID = "razina" + nextLevel;
             int btnID = getResources().getIdentifier(buttonID, "id", getPackageName());
-            morasUc = findViewById(btnID);
-            if (iducaRazina % 2 == 0) {
-                morasUc.setBackground(this.getResources().getDrawable(R.drawable.round_button_moras_taj2));
+            mustPress = findViewById(btnID);
+            if (nextLevel % 2 == 0) {
+                mustPress.setBackground(this.getResources().getDrawable(R.drawable.round_button_moras_taj2));
                 Animation mShakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
-                morasUc.startAnimation(mShakeAnimation);
-                PlaySound(1);
+                mustPress.startAnimation(mShakeAnimation);
+                playSound(1);
             } else {
-                morasUc.setBackground(this.getResources().getDrawable(R.drawable.round_button_moras_taj));
+                mustPress.setBackground(this.getResources().getDrawable(R.drawable.round_button_moras_taj));
                 Animation mShakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
-                morasUc.startAnimation(mShakeAnimation);
-                PlaySound(1);
+                mustPress.startAnimation(mShakeAnimation);
+                playSound(1);
             }
         }
-
-
     }
 
-    public void OptionsShow() {
+    public void optionsShow() {
         SharedPreferences prefs2 = getSharedPreferences("Options", MODE_PRIVATE);
         int vibrateValue = prefs2.getInt("keyVibrate", 1);
         int soundValue = prefs2.getInt("keySound", 1);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View promptView = layoutInflater.inflate(R.layout.options, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        ImageButton btn = promptView.findViewById(R.id.imageVibrate);
+        ImageButton btn2 = promptView.findViewById(R.id.imageSound);
+        ImageButton btnClose = promptView.findViewById(R.id.alertClose);
 
         if (vibrateValue == 1) {
-            LayoutInflater layoutInflater = LayoutInflater.from(this);
-            View promptView = layoutInflater.inflate(R.layout.options, null);
-            promptView.setBackground(getResources().getDrawable(R.drawable.alertbox));
-            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            ImageButton btn = promptView.findViewById(R.id.imageVibrate);
-            ImageButton btn2 = promptView.findViewById(R.id.imageSound);
-
-            ImageButton btnClose = promptView.findViewById(R.id.alertClose);
-
-
             btn.setImageResource(R.drawable.vibrate);
             if (soundValue == 1) {
                 btn2.setImageResource(R.drawable.volume_high);
@@ -223,18 +212,11 @@ public class Leveli extends AppCompatActivity {
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PlaySound(0);
+                    playSound(0);
                     alertDialog.cancel();
                 }
             });
-
         } else {
-            LayoutInflater layoutInflater = LayoutInflater.from(this);
-            View promptView = layoutInflater.inflate(R.layout.options, null);
-            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            ImageButton btn = promptView.findViewById(R.id.imageVibrate);
-            ImageButton btn2 = promptView.findViewById(R.id.imageSound);
-            ImageButton btnClose = promptView.findViewById(R.id.alertClose);
             btn.setImageResource(R.drawable.vibrate_off);
             if (soundValue == 1) {
                 btn2.setImageResource(R.drawable.volume_high);
@@ -247,66 +229,60 @@ public class Leveli extends AppCompatActivity {
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PlaySound(0);
+                    playSound(0);
                     alertDialog.cancel();
                 }
             });
         }
     }
 
-    public void Options(View v) {
+    public void optionsVibration(View v) {
         ImageButton vibrate = (ImageButton) v;
-        PlaySound(0);
+        playSound(0);
         SharedPreferences prefs2 = getSharedPreferences("Options", MODE_PRIVATE);
         int vibrateValue = prefs2.getInt("keyVibrate", 1);
         if (vibrateValue == 1) {
-            SharedPreferences.Editor editor = getSharedPreferences("Options", MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = prefs2.edit();
             editor.putInt("keyVibrate", 0);
             editor.apply();
             vibrate.setImageResource(R.drawable.vibrate_off);
         } else {
-            SharedPreferences.Editor editor = getSharedPreferences("Options", MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = prefs2.edit();
             editor.putInt("keyVibrate", 1);
             editor.apply();
             vibrate.setImageResource(R.drawable.vibrate);
-
             Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            // Vibrate for 500 milliseconds
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vib.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {
-                //deprecated in API 26
                 vib.vibrate(100);
             }
         }
     }
 
-    public void Options2(View v) {
-        ImageButton vibrate = (ImageButton) v;
-
+    public void optionsSound(View v) {
+        ImageButton sound = (ImageButton) v;
         SharedPreferences prefs2 = getSharedPreferences("Options", MODE_PRIVATE);
         int soundValue = prefs2.getInt("keySound", 1);
         if (soundValue == 1) {
-            SharedPreferences.Editor editor = getSharedPreferences("Options", MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = prefs2.edit();
             editor.putInt("keySound", 0);
             editor.apply();
-            vibrate.setImageResource(R.drawable.volume_off);
-
-
+            sound.setImageResource(R.drawable.volume_off);
         } else {
-            SharedPreferences.Editor editor = getSharedPreferences("Options", MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = prefs2.edit();
             editor.putInt("keySound", 1);
             editor.apply();
-            vibrate.setImageResource(R.drawable.volume_high);
-
-            PlaySound(0);
+            sound.setImageResource(R.drawable.volume_high);
+            playSound(0);
         }
     }
-    public void PlaySound(int a) {
+
+    public void playSound(int a) {
         SharedPreferences prefs2 = getSharedPreferences("Options", MODE_PRIVATE);
         int soundValue = prefs2.getInt("keySound", 1);
         if (soundValue == 1) {
-            soundPool.play(sound[a],1,1,1,0,1f);
+            soundPool.play(sound[a], 1, 1, 1, 0, 1f);
         }
     }
 }
