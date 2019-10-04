@@ -27,7 +27,7 @@
             tools:layout_editor_absoluteY="16dp">
 
             <Button
-                android:id="@+id/razina1"
+                android:id="@+id/level1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -39,13 +39,13 @@
                 app:autoSizeMinTextSize="10sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toTopOf="@+id/razina5"
+                app:layout_constraintBottom_toTopOf="@+id/level5"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/razina2"
+                android:id="@+id/level2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -58,13 +58,13 @@
                 app:autoSizeMinTextSize="10sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toTopOf="@+id/razina6"
+                app:layout_constraintBottom_toTopOf="@+id/level6"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/razina3"
+                android:id="@+id/level3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -80,7 +80,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/razina4"
+                android:id="@+id/level4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -96,7 +96,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/razina5"
+                android:id="@+id/level5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -110,10 +110,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
-                app:layout_constraintTop_toBottomOf="@+id/razina1" />
+                app:layout_constraintTop_toBottomOf="@+id/level1" />
 
             <Button
-                android:id="@+id/razina6"
+                android:id="@+id/level6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -127,10 +127,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina2" />
+                app:layout_constraintTop_toBottomOf="@+id/level2" />
 
             <Button
-                android:id="@+id/razina7"
+                android:id="@+id/level7"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -144,10 +144,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina3" />
+                app:layout_constraintTop_toBottomOf="@+id/level3" />
 
             <Button
-                android:id="@+id/razina8"
+                android:id="@+id/level8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -161,11 +161,11 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina4" />
+                app:layout_constraintTop_toBottomOf="@+id/level4" />
 
             <Button
 
-                android:id="@+id/razina15"
+                android:id="@+id/level15"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -179,10 +179,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toEndOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina11" />
+                app:layout_constraintTop_toBottomOf="@+id/level11" />
 
             <Button
-                android:id="@+id/razina26"
+                android:id="@+id/level26"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -196,10 +196,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina22" />
+                app:layout_constraintTop_toBottomOf="@+id/level22" />
 
             <Button
-                android:id="@+id/razina24"
+                android:id="@+id/level24"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -213,10 +213,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina20" />
+                app:layout_constraintTop_toBottomOf="@+id/level20" />
 
             <Button
-                android:id="@+id/razina23"
+                android:id="@+id/level23"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -230,10 +230,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toEndOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina19" />
+                app:layout_constraintTop_toBottomOf="@+id/level19" />
 
             <Button
-                android:id="@+id/razina22"
+                android:id="@+id/level22"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -247,10 +247,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina18" />
+                app:layout_constraintTop_toBottomOf="@+id/level18" />
 
             <Button
-                android:id="@+id/razina20"
+                android:id="@+id/level20"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -264,10 +264,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina16" />
+                app:layout_constraintTop_toBottomOf="@+id/level16" />
 
             <Button
-                android:id="@+id/razina19"
+                android:id="@+id/level19"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -281,10 +281,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toEndOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina15" />
+                app:layout_constraintTop_toBottomOf="@+id/level15" />
 
             <Button
-                android:id="@+id/razina18"
+                android:id="@+id/level18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -298,10 +298,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina14" />
+                app:layout_constraintTop_toBottomOf="@+id/level14" />
 
             <Button
-                android:id="@+id/razina16"
+                android:id="@+id/level16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -315,10 +315,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina12" />
+                app:layout_constraintTop_toBottomOf="@+id/level12" />
 
             <Button
-                android:id="@+id/razina13"
+                android:id="@+id/level13"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -332,10 +332,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
-                app:layout_constraintTop_toBottomOf="@+id/razina9" />
+                app:layout_constraintTop_toBottomOf="@+id/level9" />
 
             <Button
-                android:id="@+id/razina34"
+                android:id="@+id/level34"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -349,10 +349,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toEndOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina30" />
+                app:layout_constraintTop_toBottomOf="@+id/level30" />
 
             <Button
-                android:id="@+id/razina31"
+                android:id="@+id/level31"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -366,10 +366,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toEndOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina27" />
+                app:layout_constraintTop_toBottomOf="@+id/level27" />
 
             <Button
-                android:id="@+id/razina29"
+                android:id="@+id/level29"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -383,10 +383,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
-                app:layout_constraintTop_toBottomOf="@+id/razina25" />
+                app:layout_constraintTop_toBottomOf="@+id/level25" />
 
             <Button
-                android:id="@+id/razina28"
+                android:id="@+id/level28"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -400,10 +400,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina24" />
+                app:layout_constraintTop_toBottomOf="@+id/level24" />
 
             <Button
-                android:id="@+id/razina27"
+                android:id="@+id/level27"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -417,10 +417,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toEndOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina23" />
+                app:layout_constraintTop_toBottomOf="@+id/level23" />
 
             <Button
-                android:id="@+id/razina30"
+                android:id="@+id/level30"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -434,10 +434,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toEndOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina26" />
+                app:layout_constraintTop_toBottomOf="@+id/level26" />
 
             <Button
-                android:id="@+id/razina25"
+                android:id="@+id/level25"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -451,10 +451,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
-                app:layout_constraintTop_toBottomOf="@+id/razina21" />
+                app:layout_constraintTop_toBottomOf="@+id/level21" />
 
             <Button
-                android:id="@+id/razina21"
+                android:id="@+id/level21"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -468,10 +468,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
-                app:layout_constraintTop_toBottomOf="@+id/razina17" />
+                app:layout_constraintTop_toBottomOf="@+id/level17" />
 
             <Button
-                android:id="@+id/razina17"
+                android:id="@+id/level17"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -485,10 +485,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
-                app:layout_constraintTop_toBottomOf="@+id/razina13" />
+                app:layout_constraintTop_toBottomOf="@+id/level13" />
 
             <Button
-                android:id="@+id/razina9"
+                android:id="@+id/level9"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -502,10 +502,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
-                app:layout_constraintTop_toBottomOf="@+id/razina5" />
+                app:layout_constraintTop_toBottomOf="@+id/level5" />
 
             <Button
-                android:id="@+id/razina32"
+                android:id="@+id/level32"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -519,10 +519,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina28" />
+                app:layout_constraintTop_toBottomOf="@+id/level28" />
 
             <Button
-                android:id="@+id/razina10"
+                android:id="@+id/level10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -536,10 +536,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina6" />
+                app:layout_constraintTop_toBottomOf="@+id/level6" />
 
             <Button
-                android:id="@+id/razina12"
+                android:id="@+id/level12"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -553,10 +553,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina8" />
+                app:layout_constraintTop_toBottomOf="@+id/level8" />
 
             <Button
-                android:id="@+id/razina11"
+                android:id="@+id/level11"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -570,10 +570,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina7" />
+                app:layout_constraintTop_toBottomOf="@+id/level7" />
 
             <Button
-                android:id="@+id/razina14"
+                android:id="@+id/level14"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -587,10 +587,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina10" />
+                app:layout_constraintTop_toBottomOf="@+id/level10" />
 
             <Button
-                android:id="@+id/razina33"
+                android:id="@+id/level33"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -604,10 +604,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
-                app:layout_constraintTop_toBottomOf="@+id/razina29" />
+                app:layout_constraintTop_toBottomOf="@+id/level29" />
 
             <Button
-                android:id="@+id/razina36"
+                android:id="@+id/level36"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -621,10 +621,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina32" />
+                app:layout_constraintTop_toBottomOf="@+id/level32" />
 
             <Button
-                android:id="@+id/razina35"
+                android:id="@+id/level35"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -638,10 +638,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toEndOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina31" />
+                app:layout_constraintTop_toBottomOf="@+id/level31" />
 
             <Button
-                android:id="@+id/razina37"
+                android:id="@+id/level37"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -655,10 +655,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
-                app:layout_constraintTop_toBottomOf="@+id/razina33" />
+                app:layout_constraintTop_toBottomOf="@+id/level33" />
 
             <Button
-                android:id="@+id/razina38"
+                android:id="@+id/level38"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -672,10 +672,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina34" />
+                app:layout_constraintTop_toBottomOf="@+id/level34" />
 
             <Button
-                android:id="@+id/razina39"
+                android:id="@+id/level39"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -689,10 +689,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina35" />
+                app:layout_constraintTop_toBottomOf="@+id/level35" />
 
             <Button
-                android:id="@+id/razina40"
+                android:id="@+id/level40"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -706,10 +706,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina36" />
+                app:layout_constraintTop_toBottomOf="@+id/level36" />
 
             <Button
-                android:id="@+id/razina41"
+                android:id="@+id/level41"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -723,10 +723,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/razina37" />
+                app:layout_constraintTop_toBottomOf="@+id/level37" />
 
             <Button
-                android:id="@+id/razina42"
+                android:id="@+id/level42"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -740,10 +740,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina38" />
+                app:layout_constraintTop_toBottomOf="@+id/level38" />
 
             <Button
-                android:id="@+id/razina43"
+                android:id="@+id/level43"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -757,10 +757,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina39" />
+                app:layout_constraintTop_toBottomOf="@+id/level39" />
 
             <Button
-                android:id="@+id/razina44"
+                android:id="@+id/level44"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -774,9 +774,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina40" />
+                app:layout_constraintTop_toBottomOf="@+id/level40" />
             <Button
-                android:id="@+id/razina45"
+                android:id="@+id/level45"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -790,9 +790,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/razina41" />
+                app:layout_constraintTop_toBottomOf="@+id/level41" />
             <Button
-                android:id="@+id/razina46"
+                android:id="@+id/level46"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -806,9 +806,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina42" />
+                app:layout_constraintTop_toBottomOf="@+id/level42" />
             <Button
-                android:id="@+id/razina47"
+                android:id="@+id/level47"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -822,9 +822,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina43" />
+                app:layout_constraintTop_toBottomOf="@+id/level43" />
             <Button
-                android:id="@+id/razina48"
+                android:id="@+id/level48"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -838,9 +838,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina44" />
+                app:layout_constraintTop_toBottomOf="@+id/level44" />
             <Button
-                android:id="@+id/razina49"
+                android:id="@+id/level49"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -854,9 +854,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/razina45" />
+                app:layout_constraintTop_toBottomOf="@+id/level45" />
             <Button
-                android:id="@+id/razina50"
+                android:id="@+id/level50"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -870,9 +870,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina46" />
+                app:layout_constraintTop_toBottomOf="@+id/level46" />
             <Button
-                android:id="@+id/razina51"
+                android:id="@+id/level51"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -886,9 +886,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina47" />
+                app:layout_constraintTop_toBottomOf="@+id/level47" />
             <Button
-                android:id="@+id/razina52"
+                android:id="@+id/level52"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -902,9 +902,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina48" />
+                app:layout_constraintTop_toBottomOf="@+id/level48" />
             <Button
-                android:id="@+id/razina53"
+                android:id="@+id/level53"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -918,9 +918,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/razina49" />
+                app:layout_constraintTop_toBottomOf="@+id/level49" />
             <Button
-                android:id="@+id/razina54"
+                android:id="@+id/level54"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -934,9 +934,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina50" />
+                app:layout_constraintTop_toBottomOf="@+id/level50" />
             <Button
-                android:id="@+id/razina55"
+                android:id="@+id/level55"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -950,10 +950,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina51" />
+                app:layout_constraintTop_toBottomOf="@+id/level51" />
 
             <Button
-                android:id="@+id/razina56"
+                android:id="@+id/level56"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -967,9 +967,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina52" />
+                app:layout_constraintTop_toBottomOf="@+id/level52" />
             <Button
-                android:id="@+id/razina57"
+                android:id="@+id/level57"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -983,9 +983,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/razina53" />
+                app:layout_constraintTop_toBottomOf="@+id/level53" />
             <Button
-                android:id="@+id/razina58"
+                android:id="@+id/level58"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -999,9 +999,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina54" />
+                app:layout_constraintTop_toBottomOf="@+id/level54" />
             <Button
-                android:id="@+id/razina59"
+                android:id="@+id/level59"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1015,10 +1015,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina55" />
+                app:layout_constraintTop_toBottomOf="@+id/level55" />
 
             <Button
-                android:id="@+id/razina60"
+                android:id="@+id/level60"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1032,9 +1032,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina56" />
+                app:layout_constraintTop_toBottomOf="@+id/level56" />
             <Button
-                android:id="@+id/razina61"
+                android:id="@+id/level61"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1048,9 +1048,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/razina57" />
+                app:layout_constraintTop_toBottomOf="@+id/level57" />
             <Button
-                android:id="@+id/razina62"
+                android:id="@+id/level62"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1064,9 +1064,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina58" />
+                app:layout_constraintTop_toBottomOf="@+id/level58" />
             <Button
-                android:id="@+id/razina63"
+                android:id="@+id/level63"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1080,10 +1080,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina59" />
+                app:layout_constraintTop_toBottomOf="@+id/level59" />
 
             <Button
-                android:id="@+id/razina64"
+                android:id="@+id/level64"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1097,9 +1097,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina60" />
+                app:layout_constraintTop_toBottomOf="@+id/level60" />
             <Button
-                android:id="@+id/razina65"
+                android:id="@+id/level65"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1113,9 +1113,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/razina61" />
+                app:layout_constraintTop_toBottomOf="@+id/level61" />
             <Button
-                android:id="@+id/razina66"
+                android:id="@+id/level66"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1129,9 +1129,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina62" />
+                app:layout_constraintTop_toBottomOf="@+id/level62" />
             <Button
-                android:id="@+id/razina67"
+                android:id="@+id/level67"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1145,10 +1145,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina63" />
+                app:layout_constraintTop_toBottomOf="@+id/level63" />
 
             <Button
-                android:id="@+id/razina68"
+                android:id="@+id/level68"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1162,9 +1162,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina64" />
+                app:layout_constraintTop_toBottomOf="@+id/level64" />
             <Button
-                android:id="@+id/razina69"
+                android:id="@+id/level69"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1178,9 +1178,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/razina65" />
+                app:layout_constraintTop_toBottomOf="@+id/level65" />
             <Button
-                android:id="@+id/razina70"
+                android:id="@+id/level70"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1194,9 +1194,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina66" />
+                app:layout_constraintTop_toBottomOf="@+id/level66" />
             <Button
-                android:id="@+id/razina71"
+                android:id="@+id/level71"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1210,10 +1210,10 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina67" />
+                app:layout_constraintTop_toBottomOf="@+id/level67" />
 
             <Button
-                android:id="@+id/razina72"
+                android:id="@+id/level72"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1227,9 +1227,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina68" />
+                app:layout_constraintTop_toBottomOf="@+id/level68" />
             <Button
-                android:id="@+id/razina73"
+                android:id="@+id/level73"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1243,9 +1243,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/razina69" />
+                app:layout_constraintTop_toBottomOf="@+id/level69" />
             <Button
-                android:id="@+id/razina74"
+                android:id="@+id/level74"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1259,9 +1259,9 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/razina70" />
+                app:layout_constraintTop_toBottomOf="@+id/level70" />
             <Button
-                android:id="@+id/razina75"
+                android:id="@+id/level75"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1275,10 +1275,75 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/razina71" />
+                app:layout_constraintTop_toBottomOf="@+id/level71" />
 
             <Button
-                android:id="@+id/razina76"
+                android:id="@+id/level76"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/round_button2"
+                android:onClick="levelInfo"
+                app:autoSizeMaxTextSize="60sp"
+                app:autoSizeMinTextSize="10sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toStartOf="@+id/guideline15"
+                app:layout_constraintStart_toStartOf="@+id/guideline14"
+                app:layout_constraintTop_toBottomOf="@+id/level72" />
+			<Button
+                android:id="@+id/level77"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/round_button"
+                android:onClick="levelInfo"
+                app:autoSizeMaxTextSize="60sp"
+                app:autoSizeMinTextSize="10sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/level73" />
+            <Button
+                android:id="@+id/level78"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/round_button2"
+                android:onClick="levelInfo"
+                app:autoSizeMaxTextSize="60sp"
+                app:autoSizeMinTextSize="10sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
+                app:layout_constraintStart_toStartOf="@+id/guideline12"
+                app:layout_constraintTop_toBottomOf="@+id/level74" />
+            <Button
+                android:id="@+id/level79"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/round_button"
+                android:onClick="levelInfo"
+                app:autoSizeMaxTextSize="60sp"
+                app:autoSizeMinTextSize="10sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toStartOf="@+id/guideline14"
+                app:layout_constraintStart_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/level75" />
+
+            <Button
+                android:id="@+id/level80"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -1294,7 +1359,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toBottomOf="@+id/razina72" />
+                app:layout_constraintTop_toBottomOf="@+id/level76" />
             <android.support.constraint.Guideline
                 android:id="@+id/guideline11"
                 android:layout_width="wrap_content"

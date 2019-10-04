@@ -362,7 +362,7 @@
             app:autoSizeMinTextSize="10sp"
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
-            android:drawableEnd="@drawable/close"
+            android:drawableEnd="@drawable/clearbtn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline10"
             app:layout_constraintStart_toStartOf="parent"

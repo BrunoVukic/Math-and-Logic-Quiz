@@ -17,6 +17,7 @@ import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +38,9 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class Zadatak extends AppCompatActivity implements RewardedVideoAdListener {
@@ -162,7 +166,6 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
 
     public void title() {
         TextView text = findViewById(R.id.toolbar_title);
-        /*String imeRazine = "Level " + readLevel;*/
         text.setText("Level " + readLevel);
     }
 
@@ -380,8 +383,10 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
                         .load(R.drawable.lvl24)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(question);
-                correctAnswer = 22;
-                hint = "( x ) - ( - )";
+                String date=new SimpleDateFormat("ddMM",Locale.getDefault()).format(new Date());
+                Log.v("datum",""+date);
+                correctAnswer = Integer.parseInt(date);
+                hint = "Enter today's date(DD/MM)";
                 break;
             case 25:
                 Glide.with(context)
@@ -428,8 +433,8 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
                         .load(R.drawable.lvl30)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(question);
-                correctAnswer = 3;
-                hint = "Add left and right, divide with a number to get the middle";
+                correctAnswer = 19;
+                hint = "4^2=16\n1=4/4";
                 break;
             case 31:
                 Glide.with(context)
@@ -596,8 +601,8 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
                         .load(R.drawable.lvl51)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(question);
-                correctAnswer = 1;
-                hint = "13";
+                correctAnswer = 42;
+                hint = "Angles in a triangle add up to 180";
                 break;
             case 52:
                 Glide.with(context)
@@ -799,6 +804,38 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
                 correctAnswer = 6;
                 hint = "Add numbers on the same side";
                 break;
+            case 77:
+                Glide.with(context)
+                        .load(R.drawable.lvl77)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 3;
+                hint = "Add left and right, divide with a number to get the middle";
+                break;
+			case 78:
+                Glide.with(context)
+                        .load(R.drawable.lvl78)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 22;
+                hint = "( x ) - ( - )";
+                break;
+			case 79:
+                Glide.with(context)
+                        .load(R.drawable.lvl79)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 22;
+                hint = "Add outer numbers and divide with a number to get the middle";
+                break;
+            case 80:
+                Glide.with(context)
+                        .load(R.drawable.lvl80)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(question);
+                correctAnswer = 1;
+                hint = "Count the number 13";
+                break;
             default:
                 Glide.with(context)
                         .asGif()
@@ -890,7 +927,7 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
                     editor.putInt("keyName", nextLevel);
                     editor.apply();
                 } else {
-                    /*readLevel++;*/
+
                     SharedPreferences.Editor editor = prefs2.edit();
                     editor.putInt("keyName2", readLevel);
                     editor.apply();
@@ -1123,7 +1160,7 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
                 if (number >= 3) {
                     cancel();
                     SharedPreferences.Editor editor = getSharedPreferences("Level", MODE_PRIVATE).edit();
-                    editor.putInt("keyName", 76);
+                    editor.putInt("keyName", 80);
                     editor.apply();
                     View dialoglayout = LayoutInflater.from(Zadatak.this).inflate(R.layout.popup, null);
                     TextView textView = dialoglayout.findViewById(R.id.poruka_naslov);

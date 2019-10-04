@@ -75,12 +75,12 @@ public class Leveli extends AppCompatActivity {
     public void fillLevels() {
         int noLevels = 1;
         do {
-            String buttonID = "razina" + noLevels;
+            String buttonID = "level" + noLevels;
             int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
             level = findViewById(resID);
             level.setText(String.valueOf(noLevels));
             noLevels++;
-        } while (noLevels <= 76);
+        } while (noLevels <= 80);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class Leveli extends AppCompatActivity {
         int completed = prefs.getInt("keyName", 1);
         Button predeni;
         for (int i = 1; i < completed; i++) {
-            String buttonID = "razina" + i;
+            String buttonID = "level" + i;
             int btnID = getResources().getIdentifier(buttonID, "id", getPackageName());
             predeni = findViewById(btnID);
             if (i % 2 == 0) {
@@ -171,7 +171,7 @@ public class Leveli extends AppCompatActivity {
             String message = "No skipping levels!";
             Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
             toast.show();
-            String buttonID = "razina" + nextLevel;
+            String buttonID = "level" + nextLevel;
             int btnID = getResources().getIdentifier(buttonID, "id", getPackageName());
             mustPress = findViewById(btnID);
             if (nextLevel % 2 == 0) {
