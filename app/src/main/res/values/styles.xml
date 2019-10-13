@@ -7,10 +7,8 @@
         <item name="android:background">@color/background</item>
         <item name="android:fontFamily">@font/comfortaa</item>
         <item name="android:windowFullscreen">false</item>
-        <item name="android:itemBackground">@color/colorPrimaryDark</item>
-
-
         <item name="android:windowActivityTransitions">true</item>
+        <item name="popupMenuStyle">@style/Toolbar</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
     <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
@@ -20,9 +18,9 @@
         <item name="android:background">@color/colorAccent</item>
         <item name="android:fontFamily">@font/comfortaa</item>
         <item name="android:windowFullscreen">false</item>
-
-
         <item name="android:windowActivityTransitions">true</item>
+        <item name="android:itemBackground">@color/colorPrimary</item>
+        <item name="android:popupBackground">@color/colorPrimaryDark</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
     <style name="Splash" parent="AppTheme">

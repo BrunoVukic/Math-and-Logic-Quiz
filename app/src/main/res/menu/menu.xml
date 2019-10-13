@@ -7,6 +7,6 @@
         android:orderInCategory="2"
         app:showAsAction="ifRoom"
         android:actionLayout="@layout/toolbar"
-        android:title=" "
+        android:title=""
         />
 </menu>
