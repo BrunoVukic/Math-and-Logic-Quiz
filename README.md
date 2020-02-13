@@ -1,4 +1,5 @@
-# Math and Logic Quiz
+# Math and Logic Quiz        
+
 Math and Logic Quiz is an Android Studio app made for Android devices.
 
 ## Description
@@ -17,3 +18,5 @@ The levels were made in Adobe Photoshop, while the sounds were made in FL Studio
 
 ### The imgur link below shows the preview of the app
 [link](https://imgur.com/a/pobnCyu).
+
+![](https://github.com/BrunoVukic/Math-and-Logic-Quiz/blob/master/app/src/main/res/drawable/splash.gif)
