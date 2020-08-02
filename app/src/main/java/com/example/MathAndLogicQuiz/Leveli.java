@@ -73,7 +73,7 @@ public class Leveli extends AppCompatActivity {
                 Options options=new Options();
                 options.currentContext=context;
                 options.sound=sound;
-                options.optionsShow(true);
+                options.optionsShow(false);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

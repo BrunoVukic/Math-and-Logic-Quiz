@@ -177,7 +177,7 @@ public class Zadatak extends AppCompatActivity implements RewardedVideoAdListene
             Options options=new Options();
             options.currentContext=context;
             options.sound=sound;
-            options.optionsShow(true);
+            options.optionsShow(false);
             return true;
         } else {
             return super.onOptionsItemSelected(item);

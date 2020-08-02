@@ -118,12 +118,12 @@ public class LevelPick
                 hint = "Multiply with 3 then subtract";
                 break;
             case 27:
-                correctAnswer = 54;
-                hint = "Multiply with 2 then subtract";
+                correctAnswer = 48;
+                hint = "Multiples of 6";
                 break;
             case 28:
-                correctAnswer = 51;
-                hint = "Multiply with 2 then subtract";
+                correctAnswer = 2;
+                hint = "Add all the numbers in a row";
                 break;
             case 29:
                 correctAnswer = 2;
@@ -230,8 +230,8 @@ public class LevelPick
                 hint = "Multiply with middle to get the opposite";
                 break;
             case 55:
-                correctAnswer = 48;
-                hint = "Multiples of 6";
+                correctAnswer = 54;
+                hint = "Multiply with 2 then subtract";
                 break;
             case 56:
                 correctAnswer = 29;
@@ -274,8 +274,8 @@ public class LevelPick
                 hint = "-100, -150 , -200 , -250 ";
                 break;
             case 66:
-                correctAnswer = 2;
-                hint = "Add all the numbers in a row";
+                correctAnswer = 51;
+                hint = "Multiply with 2 then subtract";
                 break;
             case 67:
                 correctAnswer = 7;

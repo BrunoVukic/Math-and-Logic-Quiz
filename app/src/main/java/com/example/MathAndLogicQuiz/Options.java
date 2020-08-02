@@ -26,50 +26,19 @@ public class Options {
         final int soundValue = prefs2.getInt("keySound", 1);
         final int themeValue = prefs2.getInt("keyTheme", 1);
         LayoutInflater layoutInflater = LayoutInflater.from(currentContext);
-        View promptView;
-        if (activityMain)
-        {
-              promptView = layoutInflater.inflate(R.layout.options_main, null);
-        }else
-            {
-                  promptView = layoutInflater.inflate(R.layout.options, null);
-            }
+        View promptView=layoutInflater.inflate(R.layout.options_main, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(currentContext).create();
         final ImageButton btn = promptView.findViewById(R.id.imageVibrate);
         final ImageButton btn2 = promptView.findViewById(R.id.imageSound);
         ImageButton btnClose = promptView.findViewById(R.id.alertClose);
+        final Button btnDark = promptView.findViewById(R.id.buttonDark);
+        final Button btnLight = promptView.findViewById(R.id.buttonLight);
+        TextView privacy = promptView.findViewById(R.id.buttonPrivacy);
+        TextView terms = promptView.findViewById(R.id.button_t_c);
         sound.currentContext=currentContext;
         if (activityMain)
         {
             final WebView webView = promptView.findViewById(R.id.webview);
-            TextView privacy = promptView.findViewById(R.id.buttonPrivacy);
-            TextView terms = promptView.findViewById(R.id.button_t_c);
-            final Button btnDark = promptView.findViewById(R.id.buttonDark);
-            final Button btnLight = promptView.findViewById(R.id.buttonLight);
-            if (themeValue == 1) {
-                btnDark.setBackgroundResource(R.drawable.border2);
-
-            } else {
-                btnLight.setBackgroundResource(R.drawable.border1);
-            }
-            btnDark.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(themeValue!=1)
-                    {
-                        optionsTheme(alertDialog, btnDark);
-                    }
-                }
-            });
-            btnLight.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(themeValue!=0)
-                    {
-                        optionsTheme(alertDialog, btnLight);
-                    }
-                }
-            });
             privacy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -90,6 +59,11 @@ public class Options {
                 }
             });
         }
+        else
+            {
+                privacy.setVisibility(privacy.GONE);
+                terms.setVisibility(terms.GONE);
+            }
         if (vibrateValue == 1) {
             btn.setImageResource(R.drawable.vibrate);
             if (soundValue == 1) {
@@ -125,6 +99,30 @@ public class Options {
                 }
             });
         }
+        if (themeValue == 1) {
+            btnDark.setBackgroundResource(R.drawable.border2);
+
+        } else {
+            btnLight.setBackgroundResource(R.drawable.border1);
+        }
+        btnDark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(themeValue!=1)
+                {
+                    optionsTheme(alertDialog, btnDark);
+                }
+            }
+        });
+        btnLight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(themeValue!=0)
+                {
+                    optionsTheme(alertDialog, btnLight);
+                }
+            }
+        });
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
